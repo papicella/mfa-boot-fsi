@@ -1,0 +1,44 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Details</title>
+    <!--/*/ <th:block th:include="head :: head"/> /*/-->
+
+</head>
+  <body id="samples">
+  <div th:replace="menu :: menu"></div>
+
+    <div id="content" class="container">
+      <h1>FSI - OAuth MFA with VMware Tanzu</h1>
+
+      <div th:unless="${#authorization.expression('isAuthenticated()')}">
+        <p>Hello There, want to start banking!</p>
+        <p>When you click the login button below, you will be redirected to the login page on your Okta org.  After you authenticate, using MFA you will be returned to this application.</p>
+      </div>
+
+      <div th:if="${#authorization.expression('isAuthenticated()')}" class="text container">
+        <p>Welcome back, <b><span th:text="${#authentication.name}">Unknown</span></b>!</p>
+        <p>You have successfully authenticated against your Okta org, and can now start banking.</p>
+      </div>
+
+      <div th:if="${#authorization.expression('isAuthenticated()')}" class="text container">
+        <h2> Banking Portal</h2>
+
+        <div class="card" style="width: 28rem;">
+            <div class="card-header">Customers</div>
+            <div class="card-body">
+              <p class="card-text">The following customers all have a positive credit rating. Use the links below to view customers</p>
+              <a th:href="@{/customers}" class="btn btn-primary">Customers</a>
+              <a th:href="@{/api/customers/all}" class="btn btn-primary">Customers [REST]</a>
+            </div>
+        </div>
+
+      </div>
+
+      <form method="get" th:action="@{/oauth2/authorization/okta}" th:unless="${#authorization.expression('isAuthenticated()')}">
+        <button id="login-button" class="btn btn-primary" type="submit">Login</button>
+      </form>
+    </div>
+
+    <div th:replace="footer :: footer"></div>
+  </body>
+</html>

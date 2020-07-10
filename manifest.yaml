@@ -1,0 +1,9 @@
+---
+applications:
+- name: pas-okta-boot-app 
+  memory: 1024M
+  buildpack: https://github.com/cloudfoundry/java-buildpack.git#v4.16
+  instances: 2
+  path: ./target/demo-0.0.1-SNAPSHOT.jar
+  env:
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+}}'
